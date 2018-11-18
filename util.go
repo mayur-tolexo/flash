@@ -37,13 +37,6 @@ func isAPI(field reflect.StructField) (flag bool) {
 	return
 }
 
-func getHTTPMethod(field reflect.StructField) string {
-	out := field.Type.String()
-	out = out[6:]
-	out = strings.ToUpper(out)
-	return out
-}
-
 func firstCap(text string) string {
 	out := []rune(text)
 	if len(text) > 0 {

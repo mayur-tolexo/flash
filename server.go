@@ -69,18 +69,27 @@ func (s *Server) setupAPI(service interface{}) {
 
 			// method := getHTTPMethod(field)
 			// handler := getHandler(service, firstCap(field.Name))
-			s.setupHandler(metaData)
+			s.setupHandler(service, field, metaData)
 		}
 	}
 }
 
 //setupHandler will setup Handler for the api
-func (s *Server) setupHandler(metaData MetaData) {
-	s.GET(metaData.url, ping)
+func (s *Server) setupHandler(service interface{}, field reflect.StructField, metaData MetaData) {
+	switch field.Type.String() {
+	case reflect.TypeOf(GET{}).String():
+		s.GET(metaData.url, s.handler(service, field))
+	case reflect.TypeOf(POST{}).String():
+	case reflect.TypeOf(PUT{}).String():
+	case reflect.TypeOf(PATCH{}).String():
+	case reflect.TypeOf(DELETE{}).String():
+	}
 }
 
-func ping(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
+func (s *Server) handler(service interface{}, field reflect.StructField) func(c *gin.Context) {
+
+	return func(c *gin.Context) {
+		val := []reflect.Value{reflect.ValueOf(c)}
+		reflect.ValueOf(service).MethodByName(firstCap(field.Name)).Call(val)
+	}
 }
