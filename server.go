@@ -67,29 +67,27 @@ func (s *Server) setupAPI(service interface{}) {
 				metaData.url = strings.ToLower(field.Name)
 			}
 
-			// method := getHTTPMethod(field)
-			// handler := getHandler(service, firstCap(field.Name))
-			s.setupHandler(service, field, metaData)
+			method := getMethod(service, field)
+			s.setupHandler(method, metaData)
 		}
 	}
 }
 
 //setupHandler will setup Handler for the api
-func (s *Server) setupHandler(service interface{}, field reflect.StructField, metaData MetaData) {
-	switch field.Type.String() {
-	case reflect.TypeOf(GET{}).String():
-		s.GET(metaData.url, s.handler(service, field))
-	case reflect.TypeOf(POST{}).String():
-	case reflect.TypeOf(PUT{}).String():
-	case reflect.TypeOf(PATCH{}).String():
-	case reflect.TypeOf(DELETE{}).String():
-	}
-}
-
-func (s *Server) handler(service interface{}, field reflect.StructField) func(c *gin.Context) {
-
-	return func(c *gin.Context) {
-		val := []reflect.Value{reflect.ValueOf(c)}
-		reflect.ValueOf(service).MethodByName(firstCap(field.Name)).Call(val)
+func (s *Server) setupHandler(method Method, metaData MetaData) {
+	if handler, exists := method.getHandler(); exists {
+		url := metaData.url
+		switch method.methodType {
+		case reflect.TypeOf(GET{}).String():
+			s.GET(url, handler)
+		case reflect.TypeOf(POST{}).String():
+			s.POST(url, handler)
+		case reflect.TypeOf(PUT{}).String():
+			s.PUT(url, handler)
+		case reflect.TypeOf(PATCH{}).String():
+			s.PATCH(url, handler)
+		case reflect.TypeOf(DELETE{}).String():
+			s.DELETE(url, handler)
+		}
 	}
 }

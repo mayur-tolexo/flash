@@ -29,6 +29,8 @@ func coalesce(tag reflect.StructTag, keys ...string) string {
 	return ""
 }
 
+//isAPI will check the service field an api or not
+//field type should be api struct types
 func isAPI(field reflect.StructField) (flag bool) {
 	fType := field.Type.String()
 	if field.Type.Kind() == reflect.Struct && strings.HasPrefix(fType, "flash") {
@@ -43,4 +45,11 @@ func firstCap(text string) string {
 		out[0] = unicode.ToUpper(out[0])
 	}
 	return string(out)
+}
+
+func isSame(a, b reflect.Type) (flag bool) {
+	if a.Kind() == b.Kind() && a.PkgPath() == b.PkgPath() && a.Name() == b.Name() {
+		flag = true
+	}
+	return
 }

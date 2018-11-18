@@ -5,18 +5,19 @@ import (
 	"github.com/mayur-tolexo/flash"
 )
 
-type CoreService struct {
-	ping flash.GET `url:"/ping"`
+type TestService struct {
+	ping  flash.GET `url:"/ping"`
+	ping2 flash.GET `url:"/ping2"`
 }
 
-func (me *CoreService) Ping(c *gin.Context) {
+func (*TestService) Ping(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": "pong bro",
+		"message": "pong",
 	})
 }
 
 func main() {
 	engine := flash.Default()
-	engine.AddService(&CoreService{})
+	engine.AddService(&TestService{})
 	engine.Start(":7071")
 }
