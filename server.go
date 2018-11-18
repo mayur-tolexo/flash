@@ -1,7 +1,6 @@
 package flash
 
 import (
-	"net/http"
 	"reflect"
 	"strings"
 
@@ -12,16 +11,14 @@ import (
 type Server struct {
 	*gin.Engine
 	MetaData
-	services   []interface{}
-	middleware map[string]func(http.Handler) http.Handler
+	services []interface{}
 }
 
 //Default will return default service engine
 func Default() Server {
 	return Server{
-		Engine:     gin.Default(),
-		services:   make([]interface{}, 0),
-		middleware: make(map[string]func(http.Handler) http.Handler),
+		Engine:   gin.Default(),
+		services: make([]interface{}, 0),
 	}
 }
 
