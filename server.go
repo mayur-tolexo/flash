@@ -76,7 +76,7 @@ func (s *Server) setupAPI(service interface{}) {
 //setupHandler will setup Handler for the api
 func (s *Server) setupHandler(method Method, metaData MetaData) {
 	if handler, exists := method.getHandler(); exists {
-		url := metaData.url
+		url := cleanURL(metaData.prefix, "v"+metaData.version, metaData.root, metaData.url)
 		switch method.methodType {
 		case reflect.TypeOf(GET{}).String():
 			s.GET(url, handler)

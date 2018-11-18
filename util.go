@@ -1,7 +1,9 @@
 package flash
 
 import (
+	"bytes"
 	"reflect"
+	"regexp"
 	"strings"
 	"unicode"
 )
@@ -52,4 +54,34 @@ func isSame(a, b reflect.Type) (flag bool) {
 		flag = true
 	}
 	return
+}
+
+func cleanURL(pieces ...string) string {
+
+	var buffer bytes.Buffer
+
+	// init the buffer to be a relative url
+	buffer.WriteString("/")
+
+	for _, p := range pieces {
+		if p != "" && p != "-" {
+			buffer.WriteString("/")
+			buffer.WriteString(p)
+		}
+	}
+
+	url := removeMultSlashes(buffer.String())
+	//url = dropPrefix(url, "/")
+
+	return url
+}
+
+var find *regexp.Regexp
+
+func removeMultSlashes(inp string) string {
+	if find == nil {
+		find, _ = regexp.Compile("[\\/]+")
+	}
+
+	return find.ReplaceAllString(inp, "/")
 }
