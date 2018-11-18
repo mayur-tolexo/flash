@@ -17,4 +17,31 @@ Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to struct the api in
 | version, ver | Url version as in: http://abc.com/prefix/v[1]/root/url
 ---
 
+### Example
+```
+
+type TestService struct {
+	flash.Server `version:"1" root:"/test/"`
+	ping         flash.GET `url:"/ping"`
+	ping2        flash.GET `url:"/ping" version:"2"`
+}
+
+func (*TestService) Ping(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "pong",
+	})
+}
+
+func (*TestService) Ping2(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "pong with version",
+	})
+}
+
+func main() {
+	engine := flash.Default()
+	engine.AddService(&TestService{})
+	engine.Start(":8080")
+}
+```
 
