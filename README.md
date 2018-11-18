@@ -3,7 +3,6 @@
 
 
 # flash
-<img align="right" src="https://user-images.githubusercontent.com/20511920/41496418-61a22e4c-715d-11e8-9456-3ef08a2af35d.png" width="50">
 Flash Restful API framework in Golang.
 Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to struct the api in better way and easy to understand.
 
