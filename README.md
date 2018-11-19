@@ -1,5 +1,6 @@
 
 [![Godocs](https://img.shields.io/badge/golang-documentation-blue.svg)](https://www.godoc.org/github.com/mayur-tolexo/flash)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mayur-tolexo/flash)](https://goreportcard.com/report/github.com/mayur-tolexo/flash)
 
 
 # flash
