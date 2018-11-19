@@ -21,7 +21,7 @@ func getMetaData(service interface{}, rootName string) (meta MetaData) {
 		meta.prefix = coalesce(tag, "prefix", "pre")
 		meta.root = coalesce(tag, "root")
 		meta.url = coalesce(tag, "url")
-		meta.version = coalesce(tag, "version")
+		meta.version = coalesce(tag, "version", "v")
 	}
 	return
 }

@@ -14,14 +14,14 @@ Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to struct the api in
 | prefix, pre  | Url prefix as in: http://abc.com/[prefix]/v1/root/url                 
 | root         | Url root as in: http://abc.com/prefix/v1/[root]/url                                  
 | url          | Url path as in in: http://abc.com/prefix/v1/root/[url]                            
-| version, ver | Url version as in: http://abc.com/prefix/v[1]/root/url
+| version, v   | Url version as in: http://abc.com/prefix/v[1]/root/url
 ---
 
 ### Example
 ```
 
 type TestService struct {
-	flash.Server `version:"1" root:"/test/"`
+	flash.Server `v:"1" root:"/test/"`
 	ping         flash.GET `url:"/ping"`
 	ping2        flash.GET `url:"/ping" version:"2"`
 }
