@@ -7,7 +7,69 @@ Flash Restful API framework in Golang.
 Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to struct the api in better way and easy to understand.
 
 
-#### Q: What all configurations are available in flash?
+## Contents
+
+- [Installation](#installation)
+- [Example](#example)
+- [Configuration](#configuration)
+- [API Examples](#api-examples)
+  - [Using GET,POST,PUT,PATCH,DELETE and OPTIONS](#using-get-post-put-patch-delete-and-options)
+  - [Rest API definations are same as gin-gonic](https://github.com/gin-gonic/gin#api-examples)
+  - [Using Configuration](#using-configuration)
+
+## Installation
+
+To install flash package, you need to install Go and set your Go workspace first.
+As flash works on [gin-gonic](https://github.com/gin-gonic/gin), So all gin-gonic [Prerequisite](https://github.com/gin-gonic/gin#prerequisite) are required.
+
+1. Download and install it:
+
+```sh
+$ go get -u github.com/mayur-tolexo/flash
+```
+
+2. Import it in your code:
+
+```go
+import "github.com/mayur-tolexo/flash"
+```
+
+
+### Example
+
+```sh
+# create a main file
+$ cat main.go
+```
+```
+import "github.com/mayur-tolexo/flash"
+
+//PingService service struct containing only one api
+type PingService struct {
+	flash.Server `v:"1" root:"/test/"`
+	ping         flash.GET `url:"/ping"`
+}
+
+//Ping api defination
+func (*TestService) Ping(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "pong",
+	})
+}
+
+func main() {
+	router := flash.Default()
+	router.AddService(&PingService{})
+	router.Start(":8080")
+}
+```
+```sh
+# now run the main service
+$ go run main.go
+```
+now open http://localhost:8080/v1/test/ping
+
+### Configuration
 
 | Tag          | Usage            
 | ----------   |-----------------
@@ -17,31 +79,61 @@ Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to struct the api in
 | version, v   | Url version as in: http://abc.com/prefix/v[1]/root/url
 ---
 
-### Example
-```
+## API Examples
 
+### Using GET, POST, PUT, PATCH, DELETE and OPTIONS
+
+```go
+//TestService service struct
 type TestService struct {
-	flash.Server `v:"1" root:"/test/"`
-	ping         flash.GET `url:"/ping"`
-	ping2        flash.GET `url:"/ping" version:"2"`
+	flash.Server    `v:"1" root:"/test/"`
+	getAPI          flash.GET `url:"/"`
+	postAPI         flash.POST `url:"/"`
+	putAPI          flash.PUT `url:"/"`
+	patchAPI        flash.PATCH `url:"/"`
+	putAPI          flash.PUT `url:"/"`
+	deleteAPI       flash.DELETE `url:"/"`
+	optionsAPI      flash.OPTIONS `url:"/"`
 }
 
+func main() {
+	router := flash.Default()
+	router.AddService(&TestService{})
+	router.Start(":8080")
+}
+```
+
+### Using Configuration
+
+```
+import "github.com/mayur-tolexo/flash"
+
+//PingService service struct containing only one api
+type PingService struct {
+	flash.Server `v:"1" root:"test" pre:"abc/"`
+	ping         flash.GET `url:"/ping"`
+	ping2         flash.GET `url:"/ping" v:"2"`
+}
+
+//Ping api defination
 func (*TestService) Ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
 }
 
+//Ping api defination
 func (*TestService) Ping2(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"message": "pong with version",
+		"message": "pong from version 2",
 	})
 }
 
 func main() {
-	engine := flash.Default()
-	engine.AddService(&TestService{})
-	engine.Start(":8080")
+	router := flash.Default()
+	router.AddService(&PingService{})
+	router.Start(":8080")
 }
 ```
-
+First API url http://localhost:8080/abc/v1/test/ping  
+Second API url http://localhost:8080/abc/v2/test/ping

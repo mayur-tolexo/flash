@@ -85,6 +85,8 @@ func (s *Server) setupHandler(method Method, metaData MetaData) {
 			s.PATCH(url, handler)
 		case reflect.TypeOf(DELETE{}).String():
 			s.DELETE(url, handler)
+		case reflect.TypeOf(OPTIONS{}).String():
+			s.OPTIONS(url, handler)
 		}
 	}
 }

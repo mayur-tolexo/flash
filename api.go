@@ -14,3 +14,6 @@ type PATCH struct{ MetaData }
 
 //DELETE api
 type DELETE struct{ MetaData }
+
+//OPTIONS api
+type OPTIONS struct{ MetaData }
