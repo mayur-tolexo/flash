@@ -125,7 +125,7 @@ func (*TestService) Ping(c *gin.Context) {
 	})
 }
 
-//Ping api defination
+//Ping2 api defination
 func (*TestService) Ping2(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong from version 2",
