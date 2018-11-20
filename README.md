@@ -54,7 +54,7 @@ type PingService struct {
 }
 
 //Ping api defination
-func (*TestService) Ping(c *gin.Context) {
+func (*PingService) Ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
@@ -119,14 +119,14 @@ type PingService struct {
 }
 
 //Ping api defination
-func (*TestService) Ping(c *gin.Context) {
+func (*PingService) Ping(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
 }
 
 //Ping2 api defination
-func (*TestService) Ping2(c *gin.Context) {
+func (*PingService) Ping2(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "pong from version 2",
 	})
