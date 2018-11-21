@@ -22,6 +22,14 @@ func Default() Server {
 	}
 }
 
+//New will return new service engine
+func New() Server {
+	return Server{
+		Engine:   gin.New(),
+		services: make([]interface{}, 0),
+	}
+}
+
 //AddService will add new service in server
 //service is a pointer to the struct of the api
 func (s *Server) AddService(service interface{}) {
