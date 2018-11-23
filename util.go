@@ -2,6 +2,8 @@ package flash
 
 import (
 	"bytes"
+	"io/ioutil"
+	"net/http"
 	"reflect"
 	"regexp"
 	"strings"
@@ -84,4 +86,25 @@ func removeMultSlashes(inp string) string {
 	}
 
 	return find.ReplaceAllString(inp, "/")
+}
+
+func getResp(url string) (httpCode int, contentType string, content string) {
+	client := &http.Client{}
+	if req, err := http.NewRequest("GET", url, nil); err == nil {
+		if resp, err := client.Do(req); err == nil {
+			defer resp.Body.Close()
+			if data, err := ioutil.ReadAll(resp.Body); err == nil {
+				httpCode = resp.StatusCode
+				contentType = resp.Header.Get("Content-Type")
+				content = string(data)
+			} else {
+				panic(err)
+			}
+		} else {
+			panic(err)
+		}
+	} else {
+		panic(err)
+	}
+	return
 }
