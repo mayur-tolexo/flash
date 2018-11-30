@@ -7,7 +7,7 @@
 
 # flash
 Flash Restful API framework in Golang.
-Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to struct the api in better way and easy to understand.
+Wrapper on [gin-gonic](https://github.com/gin-gonic) engine to structure the api in better way and easy to maintain.
 
 
 ## Contents
