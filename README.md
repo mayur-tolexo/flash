@@ -45,7 +45,12 @@ import "github.com/mayur-tolexo/flash"
 $ vim main.go
 ```
 ```
-import "github.com/mayur-tolexo/flash"
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/mayur-tolexo/flash"
+)
 
 //PingService service struct containing only one api
 type PingService struct {
