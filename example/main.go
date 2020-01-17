@@ -46,6 +46,5 @@ func main() {
 	engine := flash.Default()
 	engine.AddService(&TestService{})
 	engine.Start(":7071")
-	engine.Use()
 	// endless.ListenAndServe(":7071", engine)
 }
