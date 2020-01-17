@@ -42,7 +42,7 @@ import "github.com/mayur-tolexo/flash"
 
 ```sh
 # create a main file
-$ cat main.go
+$ vim main.go
 ```
 ```
 import "github.com/mayur-tolexo/flash"
