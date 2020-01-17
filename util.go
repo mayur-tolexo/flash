@@ -8,6 +8,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode"
+
+	"github.com/gin-gonic/gin"
 )
 
 //isStructAddress will check the given input is pointer to struct
@@ -105,6 +107,19 @@ func getResp(url string) (httpCode int, contentType string, content string) {
 		}
 	} else {
 		panic(err)
+	}
+	return
+}
+
+//getServiceMiddlewares will return middlewares defined on service struct in Middlewares() method
+func getServiceMiddlewares(service interface{}) (mid []gin.HandlerFunc) {
+	refObj := reflect.ValueOf(service)
+	m := refObj.MethodByName("Middlewares")
+	if m.IsValid() {
+		out := m.Call([]reflect.Value{})
+		if len(out) > 0 && out[0].Kind() == reflect.Slice {
+			mid, _ = out[0].Interface().([]gin.HandlerFunc)
+		}
 	}
 	return
 }

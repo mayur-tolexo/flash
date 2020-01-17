@@ -58,6 +58,9 @@ func (s *Server) setupAPI(service interface{}) {
 	rootData := getMetaData(service, getStructName(Server{}))
 
 	refObj := reflect.ValueOf(service).Elem()
+	grp := s.Group("/")
+	grp.Use(getServiceMiddlewares(service)...)
+
 	for i := 0; i < refObj.NumField(); i++ {
 		field := refObj.Type().Field(i)
 		if isAPI(field) {
@@ -73,28 +76,28 @@ func (s *Server) setupAPI(service interface{}) {
 			}
 
 			method := getMethod(service, field)
-			s.setupHandler(method, metaData)
+			s.setupHandler(grp, method, metaData)
 		}
 	}
 }
 
 //setupHandler will setup Handler for the api
-func (s *Server) setupHandler(method Method, metaData MetaData) {
+func (s *Server) setupHandler(grp *gin.RouterGroup, method Method, metaData MetaData) {
 	if handler, exists := method.getHandler(); exists {
 		url := cleanURL(metaData.prefix, "v"+metaData.version, metaData.root, metaData.url)
 		switch method.methodType {
 		case reflect.TypeOf(GET{}).String():
-			s.GET(url, handler)
+			grp.GET(url, handler)
 		case reflect.TypeOf(POST{}).String():
-			s.POST(url, handler)
+			grp.POST(url, handler)
 		case reflect.TypeOf(PUT{}).String():
-			s.PUT(url, handler)
+			grp.PUT(url, handler)
 		case reflect.TypeOf(PATCH{}).String():
-			s.PATCH(url, handler)
+			grp.PATCH(url, handler)
 		case reflect.TypeOf(DELETE{}).String():
-			s.DELETE(url, handler)
+			grp.DELETE(url, handler)
 		case reflect.TypeOf(OPTIONS{}).String():
-			s.OPTIONS(url, handler)
+			grp.OPTIONS(url, handler)
 		}
 	}
 }
