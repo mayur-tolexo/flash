@@ -35,6 +35,7 @@ func New() Server {
 func (s *Server) AddService(service interface{}) {
 	if isStructAddress(service) {
 		s.services = append(s.services, service)
+		s.setupAPI(service)
 	} else {
 		panic("Expects an address of the Struct")
 	}
@@ -42,7 +43,7 @@ func (s *Server) AddService(service interface{}) {
 
 //Start will start the server
 func (s *Server) Start(port ...string) (err error) {
-	s.setupServices()
+	// s.setupServices()
 	err = s.Run(port...)
 	return
 }
