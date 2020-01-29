@@ -1,6 +1,7 @@
 package flash
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 
@@ -32,26 +33,20 @@ func New() *Server {
 
 //AddService will add new service in server
 //service is a pointer to the struct of the api
-func (s *Server) AddService(service interface{}) {
+func (s *Server) AddService(service interface{}) (err error) {
 	if isStructAddress(service) {
 		s.services = append(s.services, service)
 		s.setupAPI(service)
 	} else {
-		panic("Expects an address of the Struct")
+		err = fmt.Errorf("Expects an address of the Struct")
 	}
+	return
 }
 
 //Start will start the server
 func (s *Server) Start(port ...string) (err error) {
-	// s.setupServices()
 	err = s.Run(port...)
 	return
-}
-
-func (s *Server) setupServices() {
-	for _, curService := range s.services {
-		s.setupAPI(curService)
-	}
 }
 
 //setAPI will set API metadata, middleware and handler
