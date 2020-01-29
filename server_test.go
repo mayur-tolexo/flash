@@ -110,6 +110,12 @@ func TestServer(t *testing.T) {
 	assert.Equal(http.StatusOK, code)
 }
 
+func TestAddService(t *testing.T) {
+	router := New()
+	err := router.AddService(Service1{})
+	assert.Error(t, err)
+}
+
 func runTestcase(t *testing.T, router *Server, tc []testCase) {
 	for _, ctc := range tc {
 		t.Run(ctc.name, func(t *testing.T) {
@@ -130,12 +136,6 @@ func createNilBodyReq(t *testing.T, method, url string) (req *http.Request) {
 		t.Fatalf("could not create request: %v", err)
 	}
 	return
-}
-
-func TestAddService(t *testing.T) {
-	router := New()
-	err := router.AddService(Service1{})
-	assert.Error(t, err)
 }
 
 //Ping api defination
