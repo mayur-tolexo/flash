@@ -93,12 +93,12 @@ func TestPingService(t *testing.T) {
 		get404TC("GET", "extra param method 404 check", "/v1/test/invalid"),
 		get404TC("GET", "ctx missing method 404 check", "/v2/test/invalid"),
 		get404TC("GET", "ping2 method not created so 404 check", "/v2/test/ping"),
-		getPongRespTC("GET", "service2 get ping check", "/v/testservice2/ping"),
-		getPongRespTC("POST", "service2 post ping check", "/v/testservice2/ping"),
-		getPongRespTC("PUT", "service2 put url check", "/v/testservice2/ping"),
-		getPongRespTC("PATCH", "service2 patch url check", "/v/testservice2/ping"),
-		getPongRespTC("DELETE", "service2 delete url check", "/v/testservice2/ping"),
-		getPongRespTC("OPTIONS", "service2 option url check", "/v/testservice2/ping"),
+		getPongRespTC("GET", "service2 get ping check", "/testservice2/ping"),
+		getPongRespTC("POST", "service2 post ping check", "/testservice2/ping"),
+		getPongRespTC("PUT", "service2 put url check", "/testservice2/ping"),
+		getPongRespTC("PATCH", "service2 patch url check", "/testservice2/ping"),
+		getPongRespTC("DELETE", "service2 delete url check", "/testservice2/ping"),
+		getPongRespTC("OPTIONS", "service2 option url check", "/testservice2/ping"),
 	}
 
 	for _, ctc := range tc {

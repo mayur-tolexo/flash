@@ -80,7 +80,11 @@ func (s *Server) setupAPI(service interface{}) {
 //setupHandler will setup Handler for the api
 func (s *Server) setupHandler(grp *gin.RouterGroup, method Method, metaData MetaData) {
 	if handler, exists := method.getHandler(); exists {
-		url := cleanURL(metaData.prefix, "v"+metaData.version, metaData.root, metaData.url)
+		var version string
+		if metaData.version != "" {
+			version = "v" + metaData.version
+		}
+		url := cleanURL(metaData.prefix, version, metaData.root, metaData.url)
 		switch method.methodType {
 		case reflect.TypeOf(GET{}).String():
 			grp.GET(url, handler)
