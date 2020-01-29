@@ -58,30 +58,52 @@ func setupRoute() (router *Server) {
 	return
 }
 
+type testCase struct {
+	method   string
+	name     string
+	url      string
+	expected string
+	status   int
+}
+
+func getPongRespTC(method, name, url string) testCase {
+	return testCase{
+		method:   method,
+		name:     name,
+		url:      url,
+		status:   http.StatusOK,
+		expected: `{"message":"pong"}`,
+	}
+}
+
+func get404TC(method, name, url string) testCase {
+	return testCase{
+		method:   method,
+		name:     name,
+		url:      url,
+		status:   http.StatusNotFound,
+		expected: `404 page not found`,
+	}
+}
+
 func TestPingService(t *testing.T) {
-	tc := []struct {
-		name     string
-		url      string
-		expected string
-		status   int
-	}{
-		{
-			name:     "ping v1 success test",
-			url:      "/v1/test/ping",
-			status:   http.StatusOK,
-			expected: `{"message":"pong"}`,
-		},
-		{
-			name:     "ping2 method not created so 404 check",
-			url:      "/v2/test/ping",
-			status:   http.StatusNotFound,
-			expected: `404 page not found`,
-		},
+	tc := []testCase{
+		getPongRespTC("GET", "ping v1 success test", "/v1/test/ping"),
+		get404TC("GET", "ping2 method not created so 404 check", "/v2/test/ping"),
+		get404TC("GET", "extra param method 404 check", "/v1/test/invalid"),
+		get404TC("GET", "ctx missing method 404 check", "/v2/test/invalid"),
+		get404TC("GET", "ping2 method not created so 404 check", "/v2/test/ping"),
+		getPongRespTC("GET", "service2 get ping check", "/v/testservice2/ping"),
+		getPongRespTC("POST", "service2 post ping check", "/v/testservice2/ping"),
+		getPongRespTC("PUT", "service2 put url check", "/v/testservice2/ping"),
+		getPongRespTC("PATCH", "service2 patch url check", "/v/testservice2/ping"),
+		getPongRespTC("DELETE", "service2 delete url check", "/v/testservice2/ping"),
+		getPongRespTC("OPTIONS", "service2 option url check", "/v/testservice2/ping"),
 	}
 
 	for _, ctc := range tc {
 		t.Run(ctc.name, func(t *testing.T) {
-			req := createGetReq(t, ctc.url)
+			req := createNilBodyReq(t, ctc.method, ctc.url)
 			w := httptest.NewRecorder()
 			router.ServeHTTP(w, req)
 
@@ -92,8 +114,8 @@ func TestPingService(t *testing.T) {
 	}
 }
 
-func createGetReq(t *testing.T, url string) (req *http.Request) {
-	req, err := http.NewRequest("GET", url, nil)
+func createNilBodyReq(t *testing.T, method, url string) (req *http.Request) {
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		t.Fatalf("could not create request: %v", err)
 	}
