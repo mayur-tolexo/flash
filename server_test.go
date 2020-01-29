@@ -134,8 +134,8 @@ func (*TestService) Ping(c *gin.Context) {
 	})
 }
 
-//InvalidMethod api defination
-func (*TestService) InvalidMethod(c *gin.Context, data interface{}) {
+//ExtraParam api defination
+func (*TestService) ExtraParam(c *gin.Context, data interface{}) {
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})
