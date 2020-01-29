@@ -15,16 +15,16 @@ type Server struct {
 }
 
 //Default will return default service engine
-func Default() Server {
-	return Server{
+func Default() *Server {
+	return &Server{
 		Engine:   gin.Default(),
 		services: make([]interface{}, 0),
 	}
 }
 
 //New will return new service engine
-func New() Server {
-	return Server{
+func New() *Server {
+	return &Server{
 		Engine:   gin.New(),
 		services: make([]interface{}, 0),
 	}
