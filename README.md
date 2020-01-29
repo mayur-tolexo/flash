@@ -1,5 +1,6 @@
 
 [![Build Status](https://travis-ci.org/mayur-tolexo/flash.svg?branch=master)](https://travis-ci.org/mayur-tolexo/flash)
+[![codecov.io](https://codecov.io/github/mayur-tolexo/flash/coverage.svg?branch=master)](https://codecov.io/github/mayur-tolexo/flash?branch=master)
 [![Godocs](https://img.shields.io/badge/golang-documentation-blue.svg)](https://www.godoc.org/github.com/mayur-tolexo/flash)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mayur-tolexo/flash)](https://goreportcard.com/report/github.com/mayur-tolexo/flash)
 [![Open Source Helpers](https://www.codetriage.com/mayur-tolexo/flash/badges/users.svg)](https://www.codetriage.com/mayur-tolexo/flash)
