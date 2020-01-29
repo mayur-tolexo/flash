@@ -2,7 +2,6 @@ language: go
 
 go:
   - 1.9.x
-  - tip
 
 before_install:
   - go get -t -v ./...
@@ -11,4 +10,4 @@ script:
   - go test -race -coverprofile=coverage.txt -covermode=atomic
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) 9cd77edc-17d1-4ed2-a2c5-b44a2ccbc693
