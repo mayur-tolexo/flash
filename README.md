@@ -84,10 +84,10 @@ now open http://localhost:8080/v1/test/ping
 
 | Tag          | Usage            
 | ----------   |-----------------
-| prefix, pre  | Url prefix as in: http://{host}:{port}/[prefix]/v1/root/url                 
-| version, v   | Url version as in: http://{host}:{port}/prefix/v[1]/root/url    
-| root         | Url root as in: http://{host}:{port}/prefix/v1/[root]/url                                  
-| url          | Url path as in in: http://{host}:{port}/prefix/v1/root/[url]
+| prefix, pre  | Url prefix as in:  http://localhost:8080/[prefix]/v1/root/url                 
+| version, v   | Url version as in: http://localhost:8080/prefix/v[1]/root/url    
+| root         | Url root as in:    http://localhost:8080/prefix/v1/[root]/url                                  
+| url          | Url path as in:    http://localhost:8080/prefix/v1/root/[url]
 ---
 
 ## API Examples
