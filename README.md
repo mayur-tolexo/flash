@@ -152,6 +152,47 @@ Second API url http://localhost:8080/abc/v2/test/ping
 
 ### Middleware
 
+#### Global Middleware
+```
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/mayur-tolexo/flash"
+)
+
+//PingService service struct containing only one api
+type PingService struct {
+	flash.Server `v:"1" root:"/test/"`
+	ping         flash.GET `url:"/ping"`
+}
+
+//Ping api defination
+func (*PingService) Ping(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"message": "pong",
+	})
+}
+
+func globalMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		start := time.Now()
+		c.Next()
+		fmt.Println("Global Middleware Response time", time.Since(start).Seconds())
+	}
+}
+
+func main() {
+	router := flash.Default()
+	router.AddService(&PingService{})
+
+	//this is global middleware which will be call for all the services' endpoints
+	router.Use(globalMiddleware())
+	router.Start(":8080")
+}
+```
+
+#### Local middleware i.e. service-wise middleware
 ```
 package main
 
@@ -186,20 +227,9 @@ func serviceMiddleware() gin.HandlerFunc {
 	}
 }
 
-func globalMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		start := time.Now()
-		c.Next()
-		fmt.Println("Global Middleware Response time", time.Since(start).Seconds())
-	}
-}
-
 func main() {
 	router := flash.Default()
 	router.AddService(&PingService{})
-
-	//this is global middleware which will be call for all the services' endpoints
-	router.Use(globalMiddleware())
 	router.Start(":8080")
 }
 ```
